@@ -136,8 +136,8 @@ export function Button({
           {!isIconButton && children && (
             <Text
               style={[
+                TextStyles.actionM,
                 {
-                  fontFamily: FontFamily.primaryFont,
                   color: vt.text,
                   fontSize: st.fontSize,
                   marginHorizontal: prefixName || suffixName ? 8 : 0,

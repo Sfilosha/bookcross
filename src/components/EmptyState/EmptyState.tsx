@@ -49,10 +49,11 @@ export function EmptyState({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: '100%',
     alignItems: 'center',
     justifyContent: 'center',
     paddingVertical: 24,
-    minHeight: 350,
+    minHeight: 420,
   },
   image: {
     width: 120,
