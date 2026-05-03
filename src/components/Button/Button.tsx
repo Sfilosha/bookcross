@@ -2,7 +2,7 @@
  * components/Button.tsx
  *
  * Variants : primary | secondary | tertiary | warning
- * Sizes    : large | medium | small
+ * Sizes    : large | medium
  * Icons    : optional prefix / suffix via <ButtonIcon> sub-component
  *
  * Usage:
@@ -24,9 +24,9 @@
  *   </Button>
  */
 
-import { Colors, ThemeColors } from '../../theme/colors';
-import { number } from '../../theme/numbers';
-import { TextStyles } from '../../theme/typography';
+import { Colors, ThemeColors } from '@theme/colors';
+import { number } from '@theme/numbers';
+import { TextStyles } from '@theme/typography';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -42,24 +42,16 @@ import {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'warning';
-export type ButtonSize = 'large' | 'medium' | 'small';
+export type ButtonSize = 'large' | 'medium';
 
 export interface ButtonProps {
-  /** Visual style */
   variant?: ButtonVariant;
-  /** Size preset */
   size?: ButtonSize;
-  /** Button label */
   children: React.ReactNode;
-  /** Icon placed before the label — use <ButtonIcon> */
   prefix?: React.ReactNode;
-  /** Icon placed after the label — use <ButtonIcon> */
   suffix?: React.ReactNode;
-  /** Replaces content with a spinner */
   loading?: boolean;
-  /** Dims and disables interaction */
   disabled?: boolean;
-  /** Stretch to fill container width */
   fullWidth?: boolean;
   onPress?: () => void;
   style?: StyleProp<ViewStyle>;
@@ -70,11 +62,8 @@ export interface ButtonProps {
 // so Button can apply correct sizing automatically via React.cloneElement.
 
 interface ButtonIconProps {
-  /** Emoji string or any React node */
   name: React.ReactNode;
-  /** Injected by Button — do not set manually */
   size?: number;
-  /** Injected by Button — do not set manually */
   color?: string;
 }
 
@@ -144,7 +133,7 @@ function getVariantTokens(
     case 'warning':
       return {
         bg: t.error,
-        bgPressed: '#C7304A', // rose-600-ish — one step darker than rose500
+        bgPressed: '#C7304A',
         border: 'transparent',
         text: '#FFFFFF',
         spinnerColor: '#FFFFFF',
@@ -179,8 +168,6 @@ const SIZE_TOKENS: Record<ButtonSize, SizeTokens> = {
     textStyle: TextStyles.actionM,
   },
 };
-
-// ─── Button ───────────────────────────────────────────────────────────────────
 
 export function Button({
   variant = 'primary',
@@ -250,8 +237,6 @@ export function Button({
     </TouchableOpacity>
   );
 }
-
-// ─── Styles ───────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
   base: {
