@@ -6,40 +6,23 @@ import { useRoute, RouteProp } from '@react-navigation/native';
 import BookCoverThumbnail from '@components/BookCoverThumbnail/BookCoverThumbnail';
 import { palette } from '@theme/colors';
 import { TextStyles } from '@theme/typography';
+import { Book } from '@api/bookService';
 
 type RootStackParamList = {
-  Details: {
-    id: string;
-    title: string;
-    coverImg?: string;
-    author?: string;
-  };
+  Details: Book;
 };
 
 type DetailsScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
 
 function DetailsScreen() {
   const route = useRoute<DetailsScreenRouteProp>();
-  const { id, title, author, coverImg } = route.params;
-
-  const imageSource = coverImg ? { uri: coverImg } : undefined;
-
-  // TEMP DATA
-  const testItem = {
-    ISBN: '1231231231',
-    description:
-      'A fascinating journey through the world of books and discovery.',
-    publisher: 'Classic Publishing',
-    publishedDate: '2022',
-    pageCount: '202',
-    categories: ['Fiction'],
-    // author: 'James Smith',
-  };
+  const { id, title, author, coverImage, isbn, publisher, createdAt } =
+    route.params;
 
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.header}>
-        <BookCoverThumbnail imagePath={imageSource} style={styles.cover} />
+        <BookCoverThumbnail imagePath={coverImage} style={styles.cover} />
         <Text style={TextStyles.h1}>{title}</Text>
         <Text style={[TextStyles.bodyM, { color: palette.black.medium }]}>
           by {author}
@@ -49,29 +32,21 @@ function DetailsScreen() {
 
       <View style={styles.descriptionContainer}>
         <Text style={[TextStyles.bodyS, styles.caption]}>ISBN:</Text>
-        <Text style={[TextStyles.bodyS, styles.detailBody]}>
-          {testItem.ISBN}
-        </Text>
+        <Text style={[TextStyles.bodyS, styles.detailBody]}>{isbn}</Text>
 
         <Text style={[TextStyles.bodyS, styles.caption]}>About:</Text>
         <Text style={[TextStyles.bodyS, styles.detailBody]}>
-          {testItem.description}
+          Temporary description....
         </Text>
 
         <Text style={[TextStyles.bodyS, styles.caption]}>Publisher:</Text>
-        <Text style={[TextStyles.bodyS, styles.detailBody]}>
-          {testItem.publisher}
-        </Text>
+        <Text style={[TextStyles.bodyS, styles.detailBody]}>{publisher}</Text>
 
-        <Text style={[TextStyles.bodyS, styles.caption]}>Published Date:</Text>
-        <Text style={[TextStyles.bodyS, styles.detailBody]}>
-          {testItem.publishedDate}
-        </Text>
+        <Text style={[TextStyles.bodyS, styles.caption]}>Creation Date:</Text>
+        <Text style={[TextStyles.bodyS, styles.detailBody]}>{createdAt}</Text>
 
         <Text style={[TextStyles.bodyS, styles.caption]}>Pages:</Text>
-        <Text style={[TextStyles.bodyS, styles.detailBody]}>
-          {testItem.pageCount}
-        </Text>
+        <Text style={[TextStyles.bodyS, styles.detailBody]}>201 pages</Text>
       </View>
     </ScrollView>
   );

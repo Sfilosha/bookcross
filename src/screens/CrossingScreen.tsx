@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import {
   SafeAreaView,
@@ -17,36 +18,45 @@ import BooksGrid from '@components/BooksGrid/BooksGrid';
 import booksData from '@data/books.json';
 import Header from '@components/Header/Header';
 import { ScreenContainer } from '@layout/ScreenContainer';
+import { useNavigation } from '@react-navigation/native';
+import { useBooks } from '@hooks/useBooks';
+import { palette } from '@theme/colors';
 
 const CrossingScreen = () => {
-  const books = booksData.items || [];
-  const hasBooks = books.length > 0;
+  const { books, isLoading, isRefreshing, refresh } = useBooks();
+  const bookedBooks = books.filter(book => book.isBooked === true);
+  const hasBooks = bookedBooks.length > 0;
+  const navigation = useNavigation<any>();
+
+  const handleAddBook = () => {
+    navigation.navigate('Add Book', {});
+  };
+
+  if (isLoading && !isRefreshing) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={palette.success.dark} />
+      </View>
+    );
+  }
 
   return (
     <ScreenContainer>
-      <Header
-        title="Crossing"
-        suffix={
-          <>
-            <TouchableOpacity>
-              <Image source={images.placeholder.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={images.placeholder.icon} />
-            </TouchableOpacity>
-          </>
-        }
-      />
+      <Header title="Crossing" />
       {hasBooks ? (
-        <BooksGrid books={books} />
+        <BooksGrid
+          books={bookedBooks}
+          refreshing={isRefreshing}
+          onRefresh={refresh}
+        />
       ) : (
         <View>
           <EmptyState
-            title="It's nothing here"
-            subtitle="Let's add first book"
+            title="All books are on their places"
+            subtitle="Track books you lended to someone."
             imagePath={images.empty.library}
-            buttonText="Add a Book"
-            onPress={() => console.log('Add book pressed')}
+            buttonText="Lend a Book"
+            onPress={() => handleAddBook()}
           />
         </View>
       )}

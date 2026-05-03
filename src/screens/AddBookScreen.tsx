@@ -4,17 +4,39 @@ import { ScreenContainer } from '@layout/ScreenContainer';
 import { palette } from '@theme/colors';
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
+import { bookService } from '@api/bookService';
+import { useNavigation } from '@react-navigation/native';
 
 function AddBookScreen() {
   const [title, setTitle] = useState('');
+  const [coverImage, setCoverImage] = useState('');
   const [author, setAuthor] = useState('');
   const [isbn, setIsbn] = useState('');
   const [publisher, setPublisher] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const navigation = useNavigation<any>();
 
   const isButtonDisabled = title.trim() === '' || author.trim() === '';
 
-  const handleAddBook = () => {
-    console.log('Book Data:', { title, author, isbn, publisher });
+  const handleAddBook = async () => {
+    setIsLoading(true);
+    try {
+      await bookService.addBook({
+        title,
+        author,
+        isbn,
+        publisher,
+        coverImage,
+        isBooked: false,
+      });
+      console.log('Книгу додано успішно!');
+      navigation.goBack();
+    } catch (error) {
+      console.error('Error', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

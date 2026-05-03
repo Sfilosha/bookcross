@@ -5,24 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 
 import { GetNumColumns } from '@constants/GetNumColumns';
 import BookCard from '@components/BookCard/BookCard';
-
-// Based on Google Books structure
-interface BookItem {
-  id: string;
-  volumeInfo: {
-    title: string;
-    authors?: string[];
-    imageLinks?: {
-      thumbnail: string;
-    };
-  };
-}
+import { Book } from '@api/bookService';
 
 // COMPONENT PROPS
 interface BooksGridProps {
-  books: BookItem[];
+  books: Book[];
   style?: ViewStyle;
-  onPress?: () => void;
+  refreshing?: boolean;
+  onRefresh?: () => void;
 }
 
 // MAIN FUNCTION
@@ -30,12 +20,16 @@ function BooksGrid({ books, style }: BooksGridProps) {
   const navigation = useNavigation<any>();
   const numColumns = GetNumColumns();
 
-  const handlePress = (item: BookItem) => {
+  const handlePress = (item: Book) => {
     navigation.navigate('Details', {
       id: item.id,
-      title: item.volumeInfo.title,
-      author: item.volumeInfo.authors,
-      coverImg: item.volumeInfo.imageLinks?.thumbnail,
+      title: item.title,
+      author: item.author,
+      coverImage: item.coverImage,
+      publisher: item.publisher,
+      isbn: item.isbn,
+      isBooked: item.isBooked,
+      createdAt: item.createdAt,
     });
   };
 
@@ -55,9 +49,9 @@ function BooksGrid({ books, style }: BooksGridProps) {
           ]}
         >
           <BookCard
-            title={item.volumeInfo.title}
-            subtitle={item.volumeInfo.authors?.join(', ') ?? 'Unknown Author'}
-            imagePath={{ uri: item.volumeInfo.imageLinks?.thumbnail }}
+            title={item.title}
+            subtitle={item.author ?? 'Unknown Author'}
+            imagePath={item.coverImage}
             variant="vertical"
             onPress={() => handlePress(item)}
           />

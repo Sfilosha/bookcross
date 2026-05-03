@@ -1,3 +1,4 @@
+import images from '@assets/images';
 import { borderRadius } from '../../theme/numbers';
 import React from 'react';
 import {
@@ -9,19 +10,23 @@ import {
 } from 'react-native';
 
 interface BookCoverThumbnailProps {
-  imagePath?: ImageSourcePropType;
+  imagePath?: ImageSourcePropType | { uri: string | undefined };
   style?: ViewStyle;
 }
 
-const CoverPlaceholder = require('../../assets/images/placeholders/bookcover.png');
+const CoverPlaceholder = images.placeholder.bookCover;
 
-function BookCoverThumbnail({
-  imagePath = CoverPlaceholder,
-  style,
-}: BookCoverThumbnailProps) {
+function BookCoverThumbnail({ imagePath, style }: BookCoverThumbnailProps) {
+  const getSource = () => {
+    console.log(imagePath);
+    if (!imagePath) return CoverPlaceholder;
+    if (typeof imagePath === 'number') return imagePath;
+    return { uri: imagePath };
+  };
+
   return (
     <View style={[styles.container, style]}>
-      <Image style={styles.image} resizeMode="cover" source={imagePath} />
+      <Image style={styles.image} resizeMode="cover" source={getSource()} />
     </View>
   );
 }
