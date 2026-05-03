@@ -1,9 +1,10 @@
 // TBD
-import { GetNumColumns } from '../../constants/getNumColumns';
-import { handleThumbnailURL } from '../../helpers/thumbnail';
 import React from 'react';
 import { FlatList, StyleSheet, View, ViewStyle } from 'react-native';
-import BookCard from '../BookCard/BookCard';
+import { useNavigation } from '@react-navigation/native';
+
+import { GetNumColumns } from '@constants/GetNumColumns';
+import BookCard from '@components/BookCard/BookCard';
 
 // Based on Google Books structure
 interface BookItem {
@@ -25,19 +26,17 @@ interface BooksGridProps {
 
 // MAIN FUNCTION
 function BooksGrid({ books, style }: BooksGridProps) {
-  // const router = useRouter();
+  const navigation = useNavigation<any>();
   const numColumns = GetNumColumns();
 
-  // const handlePress = (item: BookItem) => {
-  //   router.push({
-  //     pathname: '/(tabs)/library/book-details',
-  //     params: {
-  //       id: item.id,
-  //       title: item.volumeInfo.title,
-  //       imageUrl: handleThumbnailURL(item),
-  //     },
-  //   });
-  // };
+  const handlePress = (item: BookItem) => {
+    navigation.navigate('Details', {
+      id: item.id,
+      title: item.volumeInfo.title,
+      author: item.volumeInfo.authors,
+      coverImg: item.volumeInfo.imageLinks?.thumbnail,
+    });
+  };
 
   return (
     <FlatList
@@ -59,7 +58,7 @@ function BooksGrid({ books, style }: BooksGridProps) {
             subtitle={item.volumeInfo.authors?.join(', ') ?? 'Unknown Author'}
             imagePath={{ uri: item.volumeInfo.imageLinks?.thumbnail }}
             variant="vertical"
-            // onPress={() => handlePress(item)}
+            onPress={() => handlePress(item)}
           />
         </View>
       )}

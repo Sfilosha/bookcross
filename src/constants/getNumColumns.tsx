@@ -1,5 +1,5 @@
 import { useWindowDimensions } from 'react-native';
-import { BREAKPOINTS } from '../../theme/numbers';
+import { BREAKPOINTS } from '@theme/numbers';
 
 export function GetNumColumns() {
   const { width } = useWindowDimensions();
@@ -7,3 +7,5 @@ export function GetNumColumns() {
   if (width >= BREAKPOINTS.tablet) return 4;
   return 2;
 }
+
+export default GetNumColumns;

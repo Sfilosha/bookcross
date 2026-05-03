@@ -13,7 +13,7 @@ interface BookCoverThumbnailProps {
   style?: ViewStyle;
 }
 
-const CoverPlaceholder = require('@/assets/images/placeholders/bookcover.png');
+const CoverPlaceholder = require('../../assets/images/placeholders/bookcover.png');
 
 function BookCoverThumbnail({
   imagePath = CoverPlaceholder,
