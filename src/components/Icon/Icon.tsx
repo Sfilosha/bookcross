@@ -17,5 +17,5 @@ export const Icon = ({ name, size = 24, color, ...props }: IconProps) => {
     return null;
   }
 
-  return <SvgIcon width={size} height={size} fill={color} {...props} />;
+  return <SvgIcon width={size} height={size} color={color} {...props} />;
 };
