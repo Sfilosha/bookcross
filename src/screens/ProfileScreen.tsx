@@ -1,47 +1,17 @@
 // src/screens/CrossingScreen.tsx
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import { EmptyState } from '@components/EmptyState/EmptyState';
-import images from '@assets/images';
-import BooksGrid from '@components/BooksGrid/BooksGrid';
-import booksData from '@data/books.json';
+import { StyleSheet } from 'react-native';
 import Header from '@components/Header/Header';
+import { ScreenContainer } from '@layout/ScreenContainer';
 
-const CrossingScreen = () => {
-  const insets = useSafeAreaInsets();
-  const books = booksData.items || [];
-  const hasBooks = books.length > 0;
-
+const ProfileScreen = () => {
   return (
-    <ScrollView
-      style={[
-        styles.container,
-        {
-          paddingBottom: insets.bottom,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}
-    >
+    <ScreenContainer>
       <Header title="Profile" />
-    </ScrollView>
+    </ScreenContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
+const styles = StyleSheet.create({});
 
-export default CrossingScreen;
+export default ProfileScreen;

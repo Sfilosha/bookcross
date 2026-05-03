@@ -16,24 +16,15 @@ import images from '@assets/images';
 import BooksGrid from '@components/BooksGrid/BooksGrid';
 import booksData from '@data/books.json';
 import Header from '@components/Header/Header';
+import { ScreenContainer } from '@layout/ScreenContainer';
 
 const HomeScreen = () => {
-  const insets = useSafeAreaInsets();
   const books = booksData.items || [];
   // const hasBooks = books.length > 0;
   const hasBooks = false;
 
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          paddingBottom: insets.bottom,
-          paddingLeft: insets.left,
-          paddingRight: insets.right,
-        },
-      ]}
-    >
+    <ScreenContainer>
       <Header
         title="My Library"
         suffix={
@@ -60,16 +51,8 @@ const HomeScreen = () => {
           />
         </View>
       )}
-    </View>
+    </ScreenContainer>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-  },
-});
 
 export default HomeScreen;

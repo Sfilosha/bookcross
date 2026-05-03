@@ -15,6 +15,7 @@ module.exports = {
           '@assets': './src/assets',
           '@constants': './src/constants',
           '@data': './src/data',
+          '@layout': './src/layout',
         },
       },
     ],

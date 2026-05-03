@@ -2,7 +2,6 @@
 import React from 'react';
 import { SvgProps } from 'react-native-svg';
 import { Icons, IconName } from '@assets/icons';
-import { palette } from '@theme/colors'; //
 
 interface IconProps extends SvgProps {
   name: IconName;
@@ -10,12 +9,7 @@ interface IconProps extends SvgProps {
   color?: string;
 }
 
-export const Icon = ({
-  name,
-  size = 24,
-  color = palette.black.dark,
-  ...props
-}: IconProps) => {
+export const Icon = ({ name, size = 24, color, ...props }: IconProps) => {
   const SvgIcon = Icons[name];
 
   if (!SvgIcon) {
@@ -23,13 +17,5 @@ export const Icon = ({
     return null;
   }
 
-  return (
-    <SvgIcon
-      width={size}
-      height={size}
-      fill={color}
-      stroke={color}
-      {...props}
-    />
-  );
+  return <SvgIcon width={size} height={size} fill={color} {...props} />;
 };

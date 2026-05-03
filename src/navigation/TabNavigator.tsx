@@ -7,6 +7,7 @@ import { palette } from '@theme/colors';
 import { FontFamily } from '@theme/typography';
 import { Icon } from '@components/Icon/Icon';
 import CrossingScreen from '@screens/CrossingScreen';
+import ProfileScreen from '@screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -49,7 +50,7 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={HomeScreen}
+        component={ProfileScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="userFill" size={24} color={color} />

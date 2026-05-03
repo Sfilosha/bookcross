@@ -11,7 +11,8 @@
       "@utils/*": ["src/utils/*"],
       "@assets/*": ["src/assets/*"],
       "@constants/*": ["src/constants/*"],
-      "@data/*": ["src/data/*"]
+      "@data/*": ["src/data/*"],
+      "@layout/*": ["src/layout/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
