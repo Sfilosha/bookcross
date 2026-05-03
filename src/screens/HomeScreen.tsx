@@ -1,22 +1,16 @@
 // src/screens/HomeScreen.tsx
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { View, TouchableOpacity, Image } from 'react-native';
+import {} from 'react-native-safe-area-context';
 import { EmptyState } from '@components/EmptyState/EmptyState';
 import images from '@assets/images';
 import BooksGrid from '@components/BooksGrid/BooksGrid';
 import booksData from '@data/books.json';
 import Header from '@components/Header/Header';
 import { ScreenContainer } from '@layout/ScreenContainer';
+import { Icon } from '@components/Icon/Icon';
+import { palette } from '@theme/colors';
+import { Button } from '@components/Button/Button';
 
 const HomeScreen = () => {
   const books = booksData.items || [];
@@ -29,12 +23,18 @@ const HomeScreen = () => {
         title="My Library"
         suffix={
           <>
-            <TouchableOpacity>
-              <Image source={images.placeholder.icon} />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <Image source={images.placeholder.icon} />
-            </TouchableOpacity>
+            <Button
+              size="large"
+              variant="tertiary"
+              isIconButton={true}
+              prefixName="slidersHorizontal"
+            />
+            <Button
+              size="large"
+              variant="tertiary"
+              isIconButton={true}
+              prefixName="magnifyingGlass"
+            />
           </>
         }
       />

@@ -1,55 +1,31 @@
-/**
- * components/Button.tsx
- *
- * Variants : primary | secondary | tertiary | warning
- * Sizes    : large | medium
- * Icons    : optional prefix / suffix via <ButtonIcon> sub-component
- *
- * Usage:
- *   import { Button, ButtonIcon } from '@/components/Button';
- *
- *   <Button variant="primary" size="large" onPress={...}>
- *     Continue
- *   </Button>
- *
- *   <Button variant="warning" size="medium" prefix={<ButtonIcon name="⚠️" />} onPress={...}>
- *     Delete account
- *   </Button>
- *
- *   <Button variant="secondary" size="small"
- *     suffix={<ButtonIcon name="→" />}
- *     onPress={...}
- *   >
- *     Learn more
- *   </Button>
- */
-
 import { Colors, ThemeColors } from '@theme/colors';
 import { number } from '@theme/numbers';
-import { TextStyles } from '@theme/typography';
+import { TextStyles, FontFamily } from '@theme/typography';
 import React from 'react';
 import {
   ActivityIndicator,
   StyleProp,
   StyleSheet,
   Text,
-  TextStyle,
   TouchableOpacity,
   useColorScheme,
   ViewStyle,
 } from 'react-native';
+import { Icon } from '@components/Icon/Icon';
+import { IconName } from '@assets/icons';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'warning';
-export type ButtonSize = 'large' | 'medium';
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary';
+export type ButtonSize = 'large' | 'medium' | 'small';
 
 export interface ButtonProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
-  children: React.ReactNode;
-  prefix?: React.ReactNode;
-  suffix?: React.ReactNode;
+  children?: React.ReactNode;
+  prefixName?: IconName; // Тепер передаємо просто назву іконки
+  suffixName?: IconName;
+  isIconButton?: boolean; // Для режиму тільки іконка
   loading?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;
@@ -57,115 +33,55 @@ export interface ButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-// ─── ButtonIcon sub-component ─────────────────────────────────────────────────
-// Wrap any icon library element (or emoji for quick prototyping) with this
-// so Button can apply correct sizing automatically via React.cloneElement.
-
-interface ButtonIconProps {
-  name: React.ReactNode;
-  size?: number;
-  color?: string;
-}
-
-export function ButtonIcon({ name, size = 16, color }: ButtonIconProps) {
-  // Plain string / emoji → render as <Text> with the injected color
-  if (typeof name === 'string') {
-    return (
-      <Text style={{ fontSize: size, color, lineHeight: size * 1.2 }}>
-        {name}
-      </Text>
-    );
-  }
-
-  // React element (Phosphor, lucide, etc.) → forward size + color via cloneElement
-  if (React.isValidElement(name)) {
-    return React.cloneElement(
-      name as React.ReactElement<{ size?: number; color?: string }>,
-      {
-        size,
-        color,
-      },
-    );
-  }
-
-  return <>{name}</>;
-}
-
 // ─── Token maps ───────────────────────────────────────────────────────────────
 
-interface VariantTokens {
-  bg: string;
-  bgPressed: string;
-  border: string;
-  text: string;
-  spinnerColor: string;
-}
-
-function getVariantTokens(
-  variant: ButtonVariant,
-  t: ThemeColors,
-): VariantTokens {
+function getVariantTokens(variant: ButtonVariant, t: ThemeColors) {
   switch (variant) {
     case 'primary':
       return {
         bg: t.primary,
-        bgPressed: t.primaryHover,
+        text: t.textInverse,
+        icon: t.textInverse,
         border: 'transparent',
-        text: t.textOnAccent,
-        spinnerColor: t.textOnAccent,
       };
     case 'secondary':
       return {
         bg: 'transparent',
-        bgPressed: t.primarySubtle,
-        border: t.primary,
         text: t.primary,
-        spinnerColor: t.primary,
+        icon: t.primary,
+        border: '#E5E5E5',
       };
     case 'tertiary':
       return {
-        bg: t.backgroundSecondary,
-        bgPressed: t.backgroundTertiary,
-        border: t.border,
-        text: t.textPrimary,
-        spinnerColor: t.textPrimary,
-      };
-    case 'warning':
-      return {
-        bg: t.error,
-        bgPressed: '#C7304A',
+        bg: 'transparent',
+        text: t.primary,
+        icon: t.primary,
         border: 'transparent',
-        text: '#FFFFFF',
-        spinnerColor: '#FFFFFF',
       };
   }
 }
 
-interface SizeTokens {
-  height: number;
-  paddingH: number;
-  borderRadius: number;
-  iconSize: number;
-  gap: number;
-  textStyle: TextStyle;
-}
-
-const SIZE_TOKENS: Record<ButtonSize, SizeTokens> = {
+const SIZE_TOKENS = {
   large: {
-    height: 52,
-    paddingH: 15,
-    borderRadius: 12,
-    iconSize: 20,
-    gap: 8,
-    textStyle: TextStyles.actionM,
+    height: 56,
+    paddingH: 24,
+    borderRadius: 14,
+    iconSize: 24,
+    fontSize: 18,
   },
   medium: {
-    height: 42,
-    paddingH: 16,
+    height: 48,
+    paddingH: 20,
     borderRadius: 12,
+    iconSize: 20,
+    fontSize: 16,
+  },
+  small: {
+    height: 32,
+    paddingH: 8,
+    borderRadius: 16,
     iconSize: 16,
-    gap: 8,
-    textStyle: TextStyles.actionM,
+    fontSize: 14,
   },
 };
 
@@ -173,8 +89,9 @@ export function Button({
   variant = 'primary',
   size = 'medium',
   children,
-  prefix,
-  suffix,
+  prefixName,
+  suffixName,
+  isIconButton = false,
   loading = false,
   disabled = false,
   fullWidth = false,
@@ -186,20 +103,7 @@ export function Button({
 
   const vt = getVariantTokens(variant, t);
   const st = SIZE_TOKENS[size];
-
   const isDisabled = disabled || loading;
-
-  // Clone icon children to inject size + color automatically
-  function cloneIcon(node: React.ReactNode) {
-    if (!node) return null;
-    if (React.isValidElement(node)) {
-      return React.cloneElement(node as React.ReactElement<ButtonIconProps>, {
-        size: st.iconSize,
-        color: vt.text,
-      });
-    }
-    return node;
-  }
 
   return (
     <TouchableOpacity
@@ -210,28 +114,44 @@ export function Button({
         styles.base,
         {
           height: st.height,
-          paddingHorizontal: st.paddingH,
+          width: isIconButton ? st.height : fullWidth ? '100%' : undefined,
+          paddingHorizontal: isIconButton ? 0 : st.paddingH,
           borderRadius: st.borderRadius,
           backgroundColor: vt.bg,
+          borderWidth: variant === 'secondary' ? 1 : 0,
           borderColor: vt.border,
-          gap: st.gap,
-          alignSelf: fullWidth ? 'stretch' : 'flex-start',
-          opacity: isDisabled ? 0.45 : 1,
+          opacity: isDisabled ? 0.5 : 1,
         },
         style,
       ]}
     >
       {loading ? (
-        <ActivityIndicator size="small" color={vt.spinnerColor} />
+        <ActivityIndicator size="small" color={vt.text} />
       ) : (
         <>
-          {prefix && cloneIcon(prefix)}
+          {prefixName && (
+            <Icon name={prefixName} size={st.iconSize} color={vt.icon} />
+          )}
 
-          <Text style={[st.textStyle, { color: vt.text }]} numberOfLines={1}>
-            {children}
-          </Text>
+          {!isIconButton && children && (
+            <Text
+              style={[
+                {
+                  fontFamily: FontFamily.primaryFont,
+                  color: vt.text,
+                  fontSize: st.fontSize,
+                  marginHorizontal: prefixName || suffixName ? 8 : 0,
+                },
+              ]}
+              numberOfLines={1}
+            >
+              {children}
+            </Text>
+          )}
 
-          {suffix && cloneIcon(suffix)}
+          {suffixName && (
+            <Icon name={suffixName} size={st.iconSize} color={vt.icon} />
+          )}
         </>
       )}
     </TouchableOpacity>
@@ -243,7 +163,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1.5,
     overflow: 'hidden',
   },
 });

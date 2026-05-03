@@ -3,6 +3,8 @@ import React from 'react';
 import { SvgProps } from 'react-native-svg';
 import { Icons, IconName } from '@assets/icons';
 
+// Usage: <Icon name="booksFill" size={24} color={color} />
+
 interface IconProps extends SvgProps {
   name: IconName;
   size?: number;
