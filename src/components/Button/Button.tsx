@@ -1,6 +1,6 @@
 import { Colors, ThemeColors } from '@theme/colors';
 import { number } from '@theme/numbers';
-import { TextStyles, FontFamily } from '@theme/typography';
+import { TextStyles } from '@theme/typography';
 import React from 'react';
 import {
   ActivityIndicator,
@@ -23,9 +23,9 @@ export interface ButtonProps {
   variant?: ButtonVariant;
   size?: ButtonSize;
   children?: React.ReactNode;
-  prefixName?: IconName; // Тепер передаємо просто назву іконки
+  prefixName?: IconName;
   suffixName?: IconName;
-  isIconButton?: boolean; // Для режиму тільки іконка
+  isIconButton?: boolean;
   loading?: boolean;
   disabled?: boolean;
   fullWidth?: boolean;

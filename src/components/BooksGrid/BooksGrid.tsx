@@ -22,6 +22,7 @@ interface BookItem {
 interface BooksGridProps {
   books: BookItem[];
   style?: ViewStyle;
+  onPress?: () => void;
 }
 
 // MAIN FUNCTION
