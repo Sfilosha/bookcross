@@ -18,7 +18,7 @@ export const bookService = {
    * Get list of all books
    */
   getAllBooks: async () => {
-    const response = await apiClient.get<Book[]>('/booksss');
+    const response = await apiClient.get<Book[]>('/books');
     return response.data;
   },
 

@@ -29,19 +29,21 @@ apiClient.interceptors.response.use(
           type: 'error',
           text1: 'Server Error',
           text2: 'We are working on it!',
+          position: 'bottom',
         });
-
-        if (status === 404) {
-          Toast.show({
-            type: 'error',
-            text1: 'Page Not Found',
-            text2: 'Page with this address don`t exists',
-          });
-        }
       }
 
-      return Promise.reject(error);
+      if (status === 404) {
+        Toast.show({
+          type: 'error',
+          text1: 'Page Not Found',
+          text2: 'The requested resource does not exist.',
+          position: 'bottom',
+        });
+      }
     }
+
+    return Promise.reject(error);
   },
 );
 

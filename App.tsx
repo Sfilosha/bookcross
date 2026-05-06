@@ -10,6 +10,7 @@ import {
 
 import { RootNavigator } from './src/navigation/RootNavigator';
 import Toast from 'react-native-toast-message';
+import { toastConfig } from '@constants/toastConfig';
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -24,7 +25,7 @@ function App(): React.JSX.Element {
       <NavigationContainer theme={isDarkMode ? DarkTheme : DefaultTheme}>
         <RootNavigator />
       </NavigationContainer>
-      <Toast position="top" bottomOffset={60} />
+      <Toast swipeable={true} config={toastConfig} />
     </SafeAreaProvider>
   );
 }
