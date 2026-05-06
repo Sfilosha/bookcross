@@ -11,6 +11,7 @@ import {
   View,
 } from 'react-native';
 import BookCoverThumbnail from '../BookCoverThumbnail/BookCoverThumbnail';
+import Badge from '@components/Badge/Badge';
 
 export type BookCardVariant = 'vertical' | 'horizontal';
 
@@ -19,14 +20,14 @@ interface BookCardProps {
   subtitle: string;
   imagePath: ImageSourcePropType;
   variant?: BookCardVariant;
-  tag?: string;
+  status?: boolean;
   onPress?: () => void;
   disabled?: boolean;
 }
 
 function BookCard({
   variant = 'vertical',
-  tag,
+  status,
   title,
   subtitle,
   imagePath,
@@ -46,7 +47,13 @@ function BookCard({
         disabled={isDisabled}
       >
         <View style={styles.verticalContainer}>
-          <BookCoverThumbnail style={styles.cover} imagePath={imagePath} />
+          <View>
+            <BookCoverThumbnail
+              style={styles.cover}
+              imagePath={imagePath}
+              status={status}
+            />
+          </View>
           <Text
             numberOfLines={1}
             style={[TextStyles.actionM, { color: t.textPrimary }]}

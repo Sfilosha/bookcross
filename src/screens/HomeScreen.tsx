@@ -16,6 +16,7 @@ import { useBooks } from '@hooks/useBooks';
 const HomeScreen = () => {
   const { books, isLoading, isRefreshing, refresh } = useBooks();
   const hasBooks = books.length > 0;
+  // const hasBooks = false;
   const navigation = useNavigation<any>();
 
   const handleAddBook = () => {

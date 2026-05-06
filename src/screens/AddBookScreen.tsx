@@ -9,11 +9,11 @@ import { useNavigation } from '@react-navigation/native';
 
 function AddBookScreen() {
   const [title, setTitle] = useState('');
-  const [coverImage, setCoverImage] = useState('');
+  const [coverImage, setCoverImage] = useState(''); // TBA
   const [author, setAuthor] = useState('');
   const [isbn, setIsbn] = useState('');
   const [publisher, setPublisher] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // TBA
 
   const navigation = useNavigation<any>();
 

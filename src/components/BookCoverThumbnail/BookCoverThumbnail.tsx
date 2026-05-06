@@ -8,15 +8,21 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
+import Badge from '@components/Badge/Badge';
 
 interface BookCoverThumbnailProps {
   imagePath?: ImageSourcePropType | { uri: string | undefined };
   style?: ViewStyle;
+  status?: boolean;
 }
 
 const CoverPlaceholder = images.placeholder.bookCover;
 
-function BookCoverThumbnail({ imagePath, style }: BookCoverThumbnailProps) {
+function BookCoverThumbnail({
+  imagePath,
+  status,
+  style,
+}: BookCoverThumbnailProps) {
   const getSource = () => {
     console.log(imagePath);
     if (!imagePath) return CoverPlaceholder;
@@ -26,7 +32,19 @@ function BookCoverThumbnail({ imagePath, style }: BookCoverThumbnailProps) {
 
   return (
     <View style={[styles.container, style]}>
-      <Image style={styles.image} resizeMode="cover" source={getSource()} />
+      {status && (
+        <Badge
+          color="success"
+          size="small"
+          value="Lended"
+          style={styles.badge}
+        />
+      )}
+      <Image
+        style={[styles.image, status && styles.imageBooked]}
+        resizeMode="cover"
+        source={getSource()}
+      />
     </View>
   );
 }
@@ -45,6 +63,15 @@ const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: '100%',
+  },
+  imageBooked: {
+    opacity: 0.3,
+  },
+  badge: {
+    position: 'absolute',
+    zIndex: 2,
+    right: 8,
+    top: 8,
   },
 });
 

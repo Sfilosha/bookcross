@@ -52,6 +52,7 @@ function BooksGrid({ books, style }: BooksGridProps) {
             title={item.title}
             subtitle={item.author ?? 'Unknown Author'}
             imagePath={item.coverImage}
+            status={item.isBooked}
             variant="vertical"
             onPress={() => handlePress(item)}
           />
