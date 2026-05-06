@@ -20,9 +20,10 @@ import { ScreenContainer } from '@layout/ScreenContainer';
 import { useNavigation } from '@react-navigation/native';
 import { useBooks } from '@hooks/useBooks';
 import { palette } from '@theme/colors';
+import ErrorState from '@components/ErrorState/ErrorState';
 
 const CrossingScreen = () => {
-  const { books, isLoading, isRefreshing, refresh } = useBooks();
+  const { books, isLoading, isRefreshing, refresh, error } = useBooks();
   const bookedBooks = books.filter(book => book.isBooked === true);
   const hasBooks = bookedBooks.length > 0;
   const navigation = useNavigation<any>();
@@ -37,6 +38,10 @@ const CrossingScreen = () => {
         <ActivityIndicator size="large" color={palette.success.dark} />
       </View>
     );
+  }
+
+  if (error) {
+    return <ErrorState errorMessage={error} onRefresh={refresh} />;
   }
 
   return (
