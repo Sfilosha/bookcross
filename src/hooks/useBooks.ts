@@ -20,7 +20,7 @@ export const useBooks = () => {
       const data = await bookService.getAllBooks();
       setBooks(data);
     } catch (err) {
-      setError('Не вдалося завантажити книги. Спробуйте пізніше.');
+      setError('Could not load books. Please try again later.');
       console.error('Fetch error:', err);
     } finally {
       setIsLoading(false);

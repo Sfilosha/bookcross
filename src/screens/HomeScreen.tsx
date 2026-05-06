@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import {} from 'react-native-safe-area-context';
 import { EmptyState } from '@components/EmptyState/EmptyState';
@@ -11,9 +11,10 @@ import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
 import { palette } from '@theme/colors';
 import { useBooks } from '@hooks/useBooks';
+import ErrorState from '@components/ErrorState/ErrorState';
 
 const HomeScreen = () => {
-  const { books, isLoading, isRefreshing, refresh } = useBooks();
+  const { books, isLoading, isRefreshing, refresh, error } = useBooks();
   const hasBooks = books.length > 0;
   // const hasBooks = false;
   const navigation = useNavigation<any>();
@@ -28,6 +29,10 @@ const HomeScreen = () => {
         <ActivityIndicator size="large" color={palette.success.dark} />
       </View>
     );
+  }
+
+  if (error) {
+    return <ErrorState errorMessage={error} onRefresh={refresh} />;
   }
 
   return (
@@ -51,7 +56,7 @@ const HomeScreen = () => {
           </>
         }
       />
-      {hasBooks ? (
+      {hasBooks && !error ? (
         <BooksGrid
           books={books}
           refreshing={isRefreshing}
