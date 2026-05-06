@@ -1,4 +1,3 @@
-// src/assets/images.ts
 import AddressBookIcon from './icons/AddressBook.svg';
 import ArrowCircleUpRightIcon from './icons/ArrowCircleUpRight.svg';
 import ArrowLeftIcon from './icons/ArrowLeft.svg';

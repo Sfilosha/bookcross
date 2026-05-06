@@ -1,4 +1,3 @@
-// src/screens/DetailsScreen.tsx
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';

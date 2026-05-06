@@ -103,7 +103,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderRadius: 8,
   },
-  value: {},
 });
 
 export default Badge;

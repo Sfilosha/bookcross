@@ -7,7 +7,7 @@ import { palette } from '@theme/colors';
 import { FontFamily } from '@theme/typography';
 import { Icon } from '@components/Icon/Icon';
 import CrossingScreen from '@screens/CrossingScreen';
-import ProfileScreen from '@screens/ProfileScreen';
+import { ProfileDrawerNavigator } from './ProfileDrawerNavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -50,7 +50,17 @@ export const TabNavigator = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={ProfileScreen}
+        component={ProfileDrawerNavigator}
+        listeners={({ navigation }) => ({
+          tabPress: e => {
+            if (navigation.isFocused()) {
+              e.preventDefault();
+              navigation.navigate('Profile', {
+                screen: 'ProfileMain',
+              });
+            }
+          },
+        })}
         options={{
           tabBarIcon: ({ color }) => (
             <Icon name="userFill" size={24} color={color} />

@@ -1,4 +1,3 @@
-// src/components/Icon/Icon.tsx
 import React from 'react';
 import { SvgProps } from 'react-native-svg';
 import { Icons, IconName } from '@assets/icons';

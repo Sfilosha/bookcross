@@ -1,6 +1,5 @@
-// src/assets/images.ts
-
 const images = {
+  appIcon: require('./images/icon.png'),
   empty: {
     library: require('./images/emptystates/man-library.png'),
     scan: require('./images/emptystates/phone-scan.png'),

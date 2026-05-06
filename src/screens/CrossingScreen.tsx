@@ -1,4 +1,3 @@
-// src/screens/CrossingScreen.tsx
 import React from 'react';
 import {
   View,

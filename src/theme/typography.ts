@@ -1,4 +1,3 @@
-// src/theme/typography.ts
 import { Platform, TextStyle } from 'react-native';
 
 // ─── Font families ────────────────────────────────────────────────────────────

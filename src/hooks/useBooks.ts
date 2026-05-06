@@ -1,4 +1,3 @@
-// src/hooks/useBooks.ts
 import { useState, useEffect, useCallback } from 'react';
 import { Book, bookService } from '@api/bookService';
 

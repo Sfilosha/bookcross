@@ -1,4 +1,3 @@
-// src/screens/HomeScreen.tsx
 import React from 'react';
 import { View } from 'react-native';
 import {} from 'react-native-safe-area-context';

@@ -1,4 +1,3 @@
-// src/components/Layout/ScreenContainer.tsx
 import { palette } from '@theme/colors';
 import React from 'react';
 import { View, StyleSheet, ViewProps } from 'react-native';

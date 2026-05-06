@@ -8,13 +8,15 @@ interface HeaderProps {
   title: string;
   subtitle?: string;
   suffix?: ReactNode;
+  preffix?: ReactNode;
 }
 
-export const Header = ({ title, subtitle, suffix }: HeaderProps) => {
+export const Header = ({ title, subtitle, suffix, preffix }: HeaderProps) => {
   const insets = useSafeAreaInsets();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
+      {preffix && <View style={styles.suffixContainer}>{preffix}</View>}
       <View style={styles.textContainer}>
         <Text style={[TextStyles.h1, styles.title]}>{title.toUpperCase()}</Text>
         {subtitle ? (
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 8,
     paddingVertical: 16,
     width: '100%',
     backgroundColor: 'transparent',
