@@ -24,6 +24,6 @@
 
 ![Image description](./Images/errorstate.png)
 
-### 2. Toast with Error Message
+### 2. Toast with Error Message.
 
 ![Image description](./Images/toast.png)
